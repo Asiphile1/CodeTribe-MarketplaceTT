@@ -16,21 +16,17 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
-//   return (
-//     <div>
-//       {products.map((product) => (
-//         <div key={product._id}>
-//           <h3>{product.title}</h3>
-//           <p>{product.description}</p>
-//           <p>${product.price}</p>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
+  return (
+    <div>
+      {products.map((product) => (
+        <div key={product._id}>
+          <h3>{product.title}</h3>
+          <p>{product.description}</p>
+          <p>${product.price}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
-// export default ProductList;
-
-
-
-// vfdkbmnp'med
+export default ProductList;
