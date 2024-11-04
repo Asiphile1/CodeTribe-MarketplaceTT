@@ -1,29 +1,81 @@
-import { useState } from 'react';
+import React from 'react';
 import api from '../services/api';
+import { Button, TextField, Typography, Box } from '@mui/material';
+import './CSS/Login.css';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await api.post('/auth/login', { email, password });
-      localStorage.setItem('token', res.data.token);
-      alert('User logged in successfully!');
-      console.log('Login response:', res.data);
-    } catch (error) {
-      console.error('Login error:', error.response?.data || error.message);
-    }
-  };
-
+function Login() {
   return (
-    <form onSubmit={handleLogin}>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-container">
+      {/* Left side with background GIF */}
+      <div className="login-left">
+        <img src="/path-to-your-gif.gif" alt="Background GIF" className="background-gif" />
+      </div>
+
+      {/* Right side with dark background and login form */}
+      <div className="login-right">
+        <Box
+          sx={{
+            width: '80%',
+            maxWidth: '400px',
+            bgcolor: 'background.paper',
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 3,
+          }}
+        >
+          <Typography variant="h5" component="h1" gutterBottom>
+            Login
+          </Typography>
+          <TextField fullWidth label="Email" margin="normal" />
+          <TextField fullWidth label="Password" type="password" margin="normal" />
+          <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+            Sign In
+          </Button>
+        </Box>
+      </div>
+    </div>
   );
-};
+}
 
 export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const Login = () => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await api.post('/auth/login', { email, password });
+//       localStorage.setItem('token', res.data.token);
+//       alert('User logged in successfully!');
+//       console.log('Login response:', res.data);
+//     } catch (error) {
+//       console.error('Login error:', error.response?.data || error.message);
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleLogin}>
+//       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+//       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+//       <button type="submit">Login</button>
+//     </form>
+//   );
+// };
+
+// export default Login;
