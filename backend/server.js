@@ -38,3 +38,9 @@ app.post("/api/login", (req, res) => {
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+
+
+// mongodb+srv://<db_test-user01>:<db_thisIsTest01>@market.xdkfm.mongodb.net/?retryWrites=true&w=majority&appName=Market
