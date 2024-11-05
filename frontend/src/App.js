@@ -20,18 +20,20 @@ const theme = createTheme({
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route path="/" element="/login" replace />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
-
 export default App;
