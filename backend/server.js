@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const Product = require("./models/Product");
 
 dotenv.config();
 const app = express();
@@ -17,18 +18,32 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.get("/api/products", (req, res) => {
-  res.json([
-    { id: 1, name: "Laptop" },
-    { id: 2, name: "Mouse" },
-  ]);
+// Route for new products
+app.post("/api/products", async (req, res) => {
+  const { name, price } = req.body;
+  try {
+    const newProduct = new Product({ name, price });
+    await newProduct.save();
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create product" });
+  }
 });
 
+// Route to get all products
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
+
+// login 
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
-  // Validating user credentials
   if (username === "test" && password === "test") {
-    // Create a token
     const token = "token";
     res.json({ token });
   } else {
@@ -36,9 +51,8 @@ app.post("/api/login", (req, res) => {
   }
 });
 
-// Start the server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
 
