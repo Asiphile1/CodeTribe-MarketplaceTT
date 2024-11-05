@@ -7,18 +7,19 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import api from "../services/api"; 
+import api from "../services/api";
+
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch cart items 
+  // Fetch cart items
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await api.get("/cart"); 
+        const response = await api.get("/cart");
         setCartItems(response.data);
       } catch (err) {
         setError("Failed to load cart items");
@@ -33,7 +34,7 @@ const Cart = () => {
   // Calculate subtotal
   const getSubtotal = () => {
     return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) => total + item.product.price * item.quantity,
       0
     );
   };
@@ -43,8 +44,9 @@ const Cart = () => {
     try {
       // Make a request to your checkout API
       const response = await api.post("/checkout", { items: cartItems });
-      // Handle success 
+      // Handle success
       console.log("Checkout successful:", response.data);
+      
     } catch (err) {
       console.error("Checkout failed:", err);
       setError("Checkout failed. Please try again.");
@@ -61,10 +63,16 @@ const Cart = () => {
       </Typography>
       <List>
         {cartItems.map((item) => (
-          <ListItem key={item.id}>
+          <ListItem key={item._id}>
+            {" "}
+            
+            
             <ListItemText
-              primary={item.name}
-              secondary={`Price: $${item.price.toFixed(2)} x ${item.quantity}`}
+              primary={item.product.name} 
+              
+              secondary={`Price: $${item.product.price.toFixed(2)} x ${
+                item.quantity
+              }`}
             />
           </ListItem>
         ))}

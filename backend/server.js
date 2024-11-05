@@ -4,12 +4,14 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Product = require("./models/Product");
+const cartRoutes = require("./cartRoutes"); 
+
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -40,11 +42,11 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// login 
+// Login route
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
   if (username === "test" && password === "test") {
-    const token = "token";
+    const token = "token"; 
     res.json({ token });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
@@ -52,9 +54,9 @@ app.post("/api/login", (req, res) => {
 });
 
 
+
+app.use("/api", cartRoutes);
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-
 
 // mongodb+srv://<db_test-user01>:<db_thisIsTest01>@market.xdkfm.mongodb.net/?retryWrites=true&w=majority&appName=Market

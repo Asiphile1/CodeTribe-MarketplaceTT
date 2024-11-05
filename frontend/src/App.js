@@ -15,7 +15,7 @@ import Checkout from "./components/Checkout";
 import Profile from "./components/Profile";
 import "./App.css";
 
-// Create a theme for Material-UI
+
 const theme = createTheme({
   palette: {
     mode: "dark",
@@ -25,7 +25,7 @@ const theme = createTheme({
   },
 });
 
-// Main App component
+
 function App() {
   return (
     <ThemeProvider theme={theme}>

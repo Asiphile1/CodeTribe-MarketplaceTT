@@ -6,7 +6,7 @@ import './CSS/Landing.css';
 function Landing() {
   return (
     <div>
-      {/* Navigation Bar */}
+     
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
