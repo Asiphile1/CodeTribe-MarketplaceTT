@@ -1,31 +1,86 @@
-import { useEffect, useState } from 'react';
-import api from '../services/api';
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import api from "../services/api"; 
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Fetch cart items 
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const res = await api.get('/cart');
-        setCartItems(res.data);
-      } catch (error) {
-        console.error('Error fetching cart items:', error.response?.data || error.message);
+        const response = await api.get("/cart"); 
+        setCartItems(response.data);
+      } catch (err) {
+        setError("Failed to load cart items");
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchCartItems();
   }, []);
 
+  // Calculate subtotal
+  const getSubtotal = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
+  // Handle checkout
+  const handleCheckout = async () => {
+    try {
+      // Make a request to your checkout API
+      const response = await api.post("/checkout", { items: cartItems });
+      // Handle success 
+      console.log("Checkout successful:", response.data);
+    } catch (err) {
+      console.error("Checkout failed:", err);
+      setError("Checkout failed. Please try again.");
+    }
+  };
+
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography color="error">{error}</Typography>;
+
   return (
-    <div>
-      <h2>Shopping Cart</h2>
-      {cartItems.map((item) => (
-        <div key={item._id}>
-          <h3>{item.productTitle}</h3>
-          <p>Quantity: {item.quantity}</p>
-        </div>
-      ))}
-    </div>
+    <Box sx={{ padding: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Your Cart
+      </Typography>
+      <List>
+        {cartItems.map((item) => (
+          <ListItem key={item.id}>
+            <ListItemText
+              primary={item.name}
+              secondary={`Price: $${item.price.toFixed(2)} x ${item.quantity}`}
+            />
+          </ListItem>
+        ))}
+      </List>
+      <Typography variant="h6">
+        Subtotal: ${getSubtotal().toFixed(2)}
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleCheckout}
+        sx={{ marginTop: 2 }}
+      >
+        Checkout
+      </Button>
+    </Box>
   );
 };
 

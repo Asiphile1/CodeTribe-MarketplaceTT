@@ -14,7 +14,9 @@ function Login() {
       const response = await api.post("/login", { email, password });
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        navigate("/products"); // Redirect to the landing page
+        navigate("/landing"); // Redirect to the landing page after sign-in
+      } else {
+        console.error("Invalid login response");
       }
     } catch (error) {
       console.error("Login failed:", error);
